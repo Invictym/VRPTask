@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dxi</groupId>
+    <artifactId>installer_aqa</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <allure.version>1.5.4</allure.version>
+        <org.springframework.version>5.1.5.RELEASE</org.springframework.version>
+        <org.testng.version>6.14.3</org.testng.version>
+        <cucumber.version>5.6.0</cucumber.version>
+        <log4j.version>1.2.17</log4j.version>
+        <aspectj.version>1.8.10</aspectj.version>
+        <testng.xml>testng.xml</testng.xml>
+    </properties>
+
+    <dependencies>
+        <!-- TESTNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${org.testng.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- SPRING -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <!-- Cucumber -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <!-- LOG4J -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <!-- SSH -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+        </dependency>
+
+        <!-- MAIL -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+        <!-- USEFUL UTILS -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-api</artifactId>
+            <version>3.141.59</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-remote-driver</artifactId>
+            <version>3.141.59</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <version>3.141.59</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.yandex.qatools.allure</groupId>
+            <artifactId>allure-testng-adaptor</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <reportVersion>2.6.0</reportVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <redirectTestOutputToFile>
+                        true
+                    </redirectTestOutputToFile>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/${testng.xml}</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <argLine>
+                        -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+                    </argLine>
+                    <systemPropertyVariables>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.args}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.version}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.registry_host}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.registry_port}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.registry_type}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.path}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.nfs_path}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.is_secure_routes}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.is_online}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.enable_oi}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.enable_axa}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${dxi_installer.enable_selfmonitoring}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${connection.ssh_host}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${connection.ssh_port}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${connection.ssh_user}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${connection.ssh_pass}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${cucumber.is_remote}</environment>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <environment>${connection.tenant_host}</environment>
+                    </systemPropertyVariables>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>
