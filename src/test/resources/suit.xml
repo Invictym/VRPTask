@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Regression">
+
+    <parameter name="user" value=""/>
+    <parameter name="password" value=""/>
+    <test name="Install Test">
+        <parameter name="account_name" value="test"/>
+        <parameter name="changed_account_name" value="test_change"/>
+        <classes>
+            <class name="tests.CreateAccountTest"/>
+        </classes>
+    </test>
+</suite>

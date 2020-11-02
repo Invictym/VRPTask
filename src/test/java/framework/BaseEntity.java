@@ -3,7 +3,9 @@ package framework;
 import framework.browser.Browser;
 import framework.config.AutomationAppContext;
 import framework.entity.BrowserValues;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 
 public abstract class BaseEntity {
 
@@ -13,19 +15,19 @@ public abstract class BaseEntity {
     return Browser.getBrowser();
   }
 
-  @BeforeClass
+  @BeforeClass(alwaysRun = true)
   public void beforeTest() {
     getBrowser().navigate(values.getUrl());
   }
 
-  @AfterClass
+  @AfterClass(alwaysRun = true)
   public void afterTest() {
-    getBrowser().close();
+    Browser.close();
   }
 
-  @AfterSuite
+  @AfterSuite(alwaysRun = true)
   public void exit() {
-    getBrowser().quite();
+    Browser.quite();
   }
 
 }

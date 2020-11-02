@@ -33,9 +33,8 @@ public class Browser implements IBrowser {
         return browser;
     }
 
-    @Override
-    public boolean isInit() {
-        return driver != null;
+    public static boolean isInit() {
+        return browser != null;
     }
 
     @Override
@@ -44,27 +43,24 @@ public class Browser implements IBrowser {
         driver.get(url);
     }
 
-    @Override
-    public void close() {
+    public static void close() {
         Log.info("Close browser");
         if (!isInit()) {
             return;
         }
-        driver.close();
-        driver = null;
+        browser.driver.close();
+        browser.driver = null;
         browser = null;
     }
 
-    @Override
-    public void quite() {
+    public static void quite() {
         Log.info("Quite browser");
         if (!isInit()) {
             return;
         }
-        driver.quit();
-        driver = null;
+        browser.driver.quit();
+        browser.driver = null;
         browser = null;
-
     }
 
     @Override

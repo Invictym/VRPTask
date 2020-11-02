@@ -12,15 +12,9 @@ public interface IBrowser {
 
     void navigate(final String url);
 
-    void close();
-
-    void quite();
-
     void openNewWindow();
 
     void setTimeout(int timeout);
-
-    boolean isInit();
 
     void wait(Function<WebDriver, ?> isTrue, int timeout);
 
